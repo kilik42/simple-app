@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+  <title>Document</title>
+
+  <style media="screen">
+    #container{
+      margin: 5px;
+    }
+    label{
+      font-weight: bold;
+      font-size: 2em;
+    }
+    #poster{
+      float: right;
+      width: 25%;
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="container">
+    <label for="title"> Movie Title</label>
+    <input type="text" id="title" name="" value="">
+    <button id="btnGetInfo" type="button" name="button">Get Movie Info</button>
+
+
+      <div id="movieTitle"></div>
+      <div id="movieYear">
+        <img src=""id="poster" alt=""/>
+      </div>
+      <div id="movieActors"></div>
+      <div id="moviePlot"></div>
+</div> <!--containter -->
+
+
+<script type="text/javascript">
+
+  var xmlhttp;
+  window.onload = function(){
+    document.getElementById('btnGetInfo').addEventListener('click', getMovieInfo, false);
+
+
+  }
+
+  function getMovieInfo(){
+    var title = document.getElementById('title')value;
+
+    var url  = " http://www.omdbapi.com/?i=tt3896198&apikey=fe5a9da6/?t="+ title + "&plot=full&r=json";
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = processData;
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+
+  }
+  function processData()
+
+  {
+      if(xmlhttp.readyState ==4 && xmlhttp.status ==200)
+      {
+        var movieJSON = xmlhttp.responseText;
+        movieJSON = JSON.parse(movieJSON);
+        console.log(movieJSON);
+        var title = movieJSON.Title;
+        var year = movieJSON.Year;
+        var actors = movieJSON.Actors;
+        var plot = movieJSON.Plot;
+        var rating = movieJSON.Rated;
+        var posterURL = movieJSON.Poster;
+
+        console.log(posterURL);
+        document.getElementById('poster').src = posterURL;
+        document.getElementById('movieTitle').innerHTML += "<h1>"+title + "[" + rating +"]</h1>";
+        document.getElementById('movieYear').innerHTML += "<h3>"+title  year +"</h3>";
+        document.getElementById('movieActors').innerHTML += "<p>"+title + actors +"</p>";
+        document.getElementById('moviePlot').innerHTML += "<p>"+title + plot +"</p>";
+
+      }
+
+
+  }
+
+
+</script>
+
+
+
+
+
+
+
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+
+</body>
+</html>
